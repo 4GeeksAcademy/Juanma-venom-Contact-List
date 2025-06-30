@@ -1,6 +1,7 @@
 {
     "name": "react-hello-advance",
     "private": true,
+    "homepage": "https://juanperez.github.io/lista-contactos",
     "version": "0.0.0",
     "type": "module",
     "scripts": {
