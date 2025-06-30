@@ -1,7 +1,7 @@
 {
     "name": "react-hello-advance",
     "private": true,
-    "homepage": "https://juanperez.github.io/lista-contactos",
+    "homepage": "https://4GeeksAcademy.github.io/Juanma-venom-Contact-List",
     "version": "0.0.0",
     "type": "module",
     "scripts": {
@@ -26,9 +26,10 @@
         "eslint-plugin-react": "^7.33.1",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.3",
+        "gh-pages": "^6.3.0",
         "vite": "^4.4.8"
     },
     "engines": {
-    "node": ">=20.0.0"
-  }
+        "node": ">=20.0.0"
+    }
 }
