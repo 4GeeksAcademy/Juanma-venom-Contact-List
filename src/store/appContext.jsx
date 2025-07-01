@@ -1,56 +1,24 @@
-const getState = ({ getStore, getActions, setStore }) => {
-    return {
-        store: {
-            contacts: []
-        },
-        actions: {
-            getContacts: async () => {
-                try {
-                    const resp = await fetch("https://playground.4geeks.com/apis/fake/contact/agenda/my_super_agenda");
-                    const data = await resp.json();
-                    setStore({ contacts: data });
-                } catch (err) {
-                    console.error("Error loading contacts", err);
-                }
-            },
-            addContact: async (contact) => {
-                try {
-                    contact.agenda_slug = "my_super_agenda";
-                    await fetch("https://playground.4geeks.com/apis/fake/contact/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(contact)
-                    });
-                    getActions().getContacts();
-                } catch (err) {
-                    console.error("Error adding contact", err);
-                }
-            },
-            updateContact: async (contactId, contact) => {
-                try {
-                    contact.agenda_slug = "my_super_agenda";
-                    await fetch(`https://playground.4geeks.com/apis/fake/contact/${contactId}`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(contact)
-                    });
-                    getActions().getContacts();
-                } catch (err) {
-                    console.error("Error updating contact", err);
-                }
-            },
-            deleteContact: async (contactId) => {
-                try {
-                    await fetch(`https://playground.4geeks.com/apis/fake/contact/${contactId}`, {
-                        method: "DELETE"
-                    });
-                    getActions().getContacts();
-                } catch (err) {
-                    console.error("Error deleting contact", err);
-                }
-            }
-        }
-    };
+import React, { createContext, useState, useEffect } from "react";
+import getState from "./flux.js";
+
+export const Context = createContext();
+
+const ContextProvider = ({ children }) => {
+  const [store, setStore] = useState({});
+  const [actions, setActions] = useState({});
+
+  const getStore = () => store;
+  const setStoreWrapper = (updatedStore) => setStore(prev => ({ ...prev, ...updatedStore }));
+  const getActions = () => actions;
+
+  useEffect(() => {
+    const flux = getState({ getStore, getActions, setStore: setStoreWrapper });
+    setActions(flux.actions);
+    setStore(flux.store);
+  }, []);
+
+  return <Context.Provider value={{ store, actions }}>{children}</Context.Provider>;
 };
 
-export default getState;
+export { ContextProvider };
+
