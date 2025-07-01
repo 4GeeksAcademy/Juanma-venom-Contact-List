@@ -3,13 +3,12 @@ import getState from "./flux.js";
 
 export const Context = createContext();
 
-const ContextProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
   const [store, setStore] = useState({});
   const [actions, setActions] = useState({});
 
   const getStore = () => store;
-  const setStoreWrapper = (updatedStore) =>
-    setStore((prev) => ({ ...prev, ...updatedStore }));
+  const setStoreWrapper = (updatedStore) => setStore((prev) => ({ ...prev, ...updatedStore }));
   const getActions = () => actions;
 
   useEffect(() => {
@@ -18,9 +17,5 @@ const ContextProvider = ({ children }) => {
     setStore(flux.store);
   }, []);
 
-  return (
-    <Context.Provider value={{ store, actions }}>{children}</Context.Provider>
-  );
+  return <Context.Provider value={{ store, actions }}>{children}</Context.Provider>;
 };
-
-export { ContextProvider };

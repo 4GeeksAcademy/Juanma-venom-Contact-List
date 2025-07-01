@@ -1,30 +1,30 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import ContactCard from "../components/ContactCard";
+import ContactCard from "../components/ContactCard.jsx";
 import { Link } from "react-router-dom";
 
 const Contact = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.getContacts();
-  }, []);
+    if (actions.getContacts) {
+      actions.getContacts();
+    }
+  }, [actions]);
+
+  if (!store.contacts) return <div>Cargando contactos...</div>;
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Lista de Contactos</h2>
-        <Link to="/add" className="btn btn-success">
-          Agregar Contacto
-        </Link>
+    <div>
+      <h1>Contactos</h1>
+      <Link to="/add-contact">Agregar Contacto</Link>
+      <div>
+        {store.contacts.length === 0 ? (
+          <p>No hay contactos</p>
+        ) : (
+          store.contacts.map((contact) => <ContactCard key={contact.id} contact={contact} />)
+        )}
       </div>
-      {store.contacts.length === 0 ? (
-        <p>No hay contactos disponibles.</p>
-      ) : (
-        store.contacts.map((contact) => (
-          <ContactCard key={contact.id} contact={contact} />
-        ))
-      )}
     </div>
   );
 };

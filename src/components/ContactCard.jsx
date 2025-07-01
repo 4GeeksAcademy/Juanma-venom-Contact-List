@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
@@ -7,12 +7,12 @@ const ContactCard = ({ contact }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
-    <div className="card mb-2">
+    <div className="card mb-3">
       <div className="card-body d-flex justify-content-between align-items-center">
         <div>
           <h5>{contact.full_name}</h5>
           <p>Email: {contact.email}</p>
-          <p>Tel: {contact.phone}</p>
+          <p>Teléfono: {contact.phone}</p>
           <p>Dirección: {contact.address}</p>
         </div>
         <div>
@@ -27,12 +27,18 @@ const ContactCard = ({ contact }) => {
           </button>
         </div>
       </div>
+
       {confirmDelete && (
         <div className="card-footer">
-          <p>¿Estás seguro?</p>
+          <p>¿Estás seguro que quieres eliminar este contacto?</p>
           <button
             className="btn btn-sm btn-danger me-2"
-            onClick={() => actions.deleteContact(contact.id)}
+            onClick={() => {
+              if (actions.deleteContact) {
+                actions.deleteContact(contact.id);
+              }
+              setConfirmDelete(false);
+            }}
           >
             Sí
           </button>
