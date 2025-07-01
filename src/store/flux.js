@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     actions: {
       getContacts: () => {
         const store = getStore();
+        // Simula carga inicial
         if (!store.contacts.length) {
           setStore({ contacts: [] });
         }
@@ -20,7 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       updateContact: (id, updatedContact) => {
         const store = getStore();
         const updatedContacts = store.contacts.map((contact) =>
-          contact.id === parseInt(id) ? { ...updatedContact, id: parseInt(id) } : contact
+          contact.id === parseInt(id)
+            ? { ...updatedContact, id: parseInt(id) }
+            : contact
         );
         setStore({ contacts: updatedContacts });
       },
