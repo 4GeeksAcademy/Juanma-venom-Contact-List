@@ -27,7 +27,7 @@ const AddContact = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -59,6 +59,7 @@ const AddContact = () => {
           className="form-control my-2"
           placeholder="Email"
           required
+          type="email"
         />
         <input
           name="phone"

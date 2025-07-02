@@ -1,21 +1,20 @@
-import React, { createContext, useState, useEffect } from "react";
-import getState from "./flux.js";
+import React, { useState } from "react";
+import getState from "./flux";
 
-export const Context = createContext();
+export const Context = React.createContext(null);
 
 export const ContextProvider = ({ children }) => {
-  const [store, setStore] = useState({});
-  const [actions, setActions] = useState({});
+  const [state, setState] = useState(
+    getState({
+      getStore: () => state.store,
+      getActions: () => state.actions,
+      setStore: (updatedStore) =>
+        setState({
+          store: { ...state.store, ...updatedStore },
+          actions: { ...state.actions }
+        })
+    })
+  );
 
-  const getStore = () => store;
-  const setStoreWrapper = (updatedStore) => setStore((prev) => ({ ...prev, ...updatedStore }));
-  const getActions = () => actions;
-
-  useEffect(() => {
-    const flux = getState({ getStore, getActions, setStore: setStoreWrapper });
-    setActions(flux.actions);
-    setStore(flux.store);
-  }, []);
-
-  return <Context.Provider value={{ store, actions }}>{children}</Context.Provider>;
+  return <Context.Provider value={state}>{children}</Context.Provider>;
 };

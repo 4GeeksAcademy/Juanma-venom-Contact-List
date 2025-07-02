@@ -7,22 +7,24 @@ const Contact = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    if (actions.getContacts) {
-      actions.getContacts();
-    }
-  }, [actions]);
+    actions.getContacts();
+  }, []);
 
   if (!store.contacts) return <div>Cargando contactos...</div>;
 
   return (
     <div>
       <h1>Contactos</h1>
-      <Link to="/add-contact">Agregar Contacto</Link>
+      <Link to="/add" className="btn btn-primary mb-3">
+        Agregar Contacto
+      </Link>
       <div>
         {store.contacts.length === 0 ? (
           <p>No hay contactos</p>
         ) : (
-          store.contacts.map((contact) => <ContactCard key={contact.id} contact={contact} />)
+          store.contacts.map((contact) => (
+            <ContactCard key={contact.id} contact={contact} />
+          ))
         )}
       </div>
     </div>
