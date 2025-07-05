@@ -1,4 +1,4 @@
-const API_BASE = "https://assets.breatheco.de/apis/fake";
+const API_BASE = "https://playground.4geeks.com/contact";
 
 const getState = ({ getStore, getActions, setStore }) => {
   return {
@@ -8,10 +8,10 @@ const getState = ({ getStore, getActions, setStore }) => {
     actions: {
       getContacts: async () => {
         try {
-          const resp = await fetch(`${API_BASE}/contact/agenda/juanma`);
+          const resp = await fetch(`${API_BASE}/agenda/juanma`);
           if (!resp.ok) {
             console.log("Agenda 'juanma' no encontrada. Se creará automáticamente con un contacto de ejemplo...");
-            const createResp = await fetch(`${API_BASE}/contact/`, {
+            const createResp = await fetch(`${API_BASE}/`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 agenda_slug: "juanma",
                 address: "Dirección genérica",
                 phone: "1234567890"
-              })
+              }),
             });
             if (!createResp.ok) throw new Error("No se pudo crear el contacto inicial");
             return getActions().getContacts();
@@ -35,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       addContact: async (newContact) => {
         try {
-          const resp = await fetch(`${API_BASE}/contact/`, {
+          const resp = await fetch(`${API_BASE}/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...newContact, agenda_slug: "juanma" })
@@ -51,7 +51,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       updateContact: async (id, updatedContact) => {
         try {
-          const resp = await fetch(`${API_BASE}/contact/${id}`, {
+          const resp = await fetch(`${API_BASE}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...updatedContact, agenda_slug: "juanma" })
@@ -67,7 +67,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       deleteContact: async (id) => {
         try {
-          const resp = await fetch(`${API_BASE}/contact/${id}`, {
+          const resp = await fetch(`${API_BASE}/${id}`, {
             method: "DELETE"
           });
 
